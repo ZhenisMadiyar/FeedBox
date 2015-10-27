@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="#fff">
+
+    <ImageView
+        android:layout_width="120dp"
+        android:layout_height="120dp"
+        android:id="@+id/imageViewComment"
+        android:background="#2e2e2e"
+        android:layout_margin="20dp"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="textPersonName"
+        android:layout_marginRight="20dp"
+        android:hint="Title"
+        android:ems="10"
+        android:id="@+id/editTextTitle"
+        android:layout_alignTop="@+id/imageViewComment"
+        android:layout_toRightOf="@+id/imageViewComment"
+        android:layout_toEndOf="@+id/imageViewComment"
+        android:layout_alignBottom="@+id/imageViewComment" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="100dp"
+        android:id="@+id/editTextCommentText"
+        android:hint="Text"
+        android:layout_marginRight="20dp"
+        android:layout_alignLeft="@+id/imageViewComment"
+        android:layout_alignStart="@+id/imageViewComment"
+        android:layout_below="@+id/imageViewComment"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Send"
+        android:id="@+id/buttonSend"
+        android:layout_below="@+id/spinner"
+        android:layout_alignLeft="@+id/editTextCommentText"
+        android:layout_alignStart="@+id/editTextCommentText"
+        android:layout_alignRight="@+id/editTextTitle"
+        android:layout_alignEnd="@+id/editTextTitle" />
+
+    <Spinner
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/spinner"
+        android:layout_marginRight="20dp"
+        android:layout_below="@+id/editTextCommentText"
+        android:layout_alignLeft="@+id/editTextCommentText"
+        android:layout_alignStart="@+id/editTextCommentText" />
+</RelativeLayout>
