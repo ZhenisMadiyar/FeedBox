@@ -20,6 +20,9 @@ import android.widget.Toast;
 import com.example.madiyarzhenis.feedbox.R;
 import com.example.madiyarzhenis.feedbox.TabsActivity;
 import com.example.madiyarzhenis.feedbox.tabs.scanner_result.add_comment.AddComment;
+import com.example.madiyarzhenis.feedbox.tabs.scanner_result.add_comment.place.PlaceAdminstration;
+import com.example.madiyarzhenis.feedbox.tabs.scanner_result.add_comment.place.PlaceMenu;
+import com.example.madiyarzhenis.feedbox.tabs.scanner_result.add_comment.place.PlaceSale;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.RequestParams;
 import com.loopj.android.http.TextHttpResponseHandler;
@@ -149,11 +152,11 @@ public class ScanCodeResult extends Activity {
                 if (position == 0) {
                     intent = new Intent(ScanCodeResult.this, AddComment.class);
                 } else if(position == 1) {
-
+                    intent = new Intent(ScanCodeResult.this, PlaceSale.class);
                 } else if(position == 2) {
-
+                    intent = new Intent(ScanCodeResult.this, PlaceMenu.class);
                 } else if(position == 3) {
-
+                    intent = new Intent(ScanCodeResult.this, PlaceAdminstration.class);
                 }
                 startActivity(intent);
             }
