@@ -6,7 +6,7 @@
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:scrollbars="none">
 
         <RelativeLayout
@@ -60,7 +60,7 @@
                 <TextView
                     android:id="@+id/textViewDescMyFeedbackFull"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:layout_alignLeft="@+id/textViewTitleMyFeedbackFull"
                     android:layout_alignStart="@+id/textViewTitleMyFeedbackFull"
                     android:layout_below="@+id/textViewTitleMyFeedbackFull"
