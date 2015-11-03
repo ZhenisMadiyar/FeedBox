@@ -20,6 +20,7 @@ import java.io.IOException;
 
 import cz.msebera.android.httpclient.Header;
 import kz.smf.feedbook.R;
+import kz.smf.feedbook.RegisterUtils;
 import kz.smf.feedbook.TabsActivity;
 
 /**
@@ -52,7 +53,7 @@ public class AccessPushNotification extends Activity {
                     jsonParams.put("source", "android");
                     jsonParams.put("token", regid);
                     requestParams.add("data", jsonCommand.toString());
-                    requestParams.add("userid", String.valueOf(2));
+                    requestParams.add("userid", String.valueOf(RegisterUtils.getUserId(getApplicationContext(), RegisterUtils.TAG_UserId)));
                     Log.i("JsonStr", jsonCommand.toString());
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -67,8 +68,41 @@ public class AccessPushNotification extends Activity {
                     public void onSuccess(int statusCode, Header[] headers, String responseString) {
                         Log.i("statusCodePush", statusCode + "");
                         Log.i("ResponsePush", responseString);
-                        Intent intentName = new Intent(AccessPushNotification.this, TabsActivity.class);
-                        startActivity(intentName);
+                        AsyncHttpClient clientSaveUser = new AsyncHttpClient();
+                        RequestParams requestParamsSaveUser = new RequestParams();
+                        JSONObject jsonCommand = new JSONObject();
+                        JSONObject jsonParams = new JSONObject();
+                        try {
+                            jsonCommand.put("command", "saveUser");
+                            jsonCommand.put("params", jsonParams);
+                            jsonParams.put("name", RegisterUtils.getDefaults(getApplicationContext(), RegisterUtils.TAG_Name));
+//                            jsonParams.put("email", RegisterUtils.getDefaults(getApplicationContext(), RegisterUtils.TAG));
+                            jsonParams.put("phone", RegisterUtils.getDefaults(getApplicationContext(), RegisterUtils.TAG_Phone));
+                            jsonParams.put("userCode", String.valueOf(RegisterUtils.getUserId(getApplicationContext(), RegisterUtils.TAG_UserId)));
+                            jsonParams.put("sendPush", true);
+                            jsonParams.put("lang", "ru");
+                            requestParamsSaveUser.add("data", jsonCommand.toString());
+                            requestParamsSaveUser.add("userid", String.valueOf(RegisterUtils.getUserId(getApplicationContext(), RegisterUtils.TAG_UserId)));
+                            Log.i("JsonStrSaveUSer", jsonCommand.toString());
+                            Log.i("UserId", String.valueOf(RegisterUtils.getUserId(getApplicationContext(), RegisterUtils.TAG_UserId)));
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                        clientSaveUser.post(AccessPushNotification.this, "http://88.198.48.246:9017/app/run", requestParamsSaveUser, new TextHttpResponseHandler() {
+                            @Override
+                            public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
+                                Log.e("statusCodePush", statusCode + "");
+                            }
+
+                            @Override
+                            public void onSuccess(int statusCode, Header[] headers, String responseString) {
+                                Log.i("statusCodeUserSave", statusCode + "");
+                                Log.i("ResponseUserSave", responseString);
+
+                                Intent intentName = new Intent(AccessPushNotification.this, TabsActivity.class);
+                                startActivity(intentName);
+                            }
+                        });
                     }
                 });
             }
@@ -78,6 +112,42 @@ public class AccessPushNotification extends Activity {
         disable.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                AsyncHttpClient clientSaveUser = new AsyncHttpClient();
+                RequestParams requestParamsSaveUser = new RequestParams();
+                JSONObject jsonCommand = new JSONObject();
+                JSONObject jsonParams = new JSONObject();
+                try {
+                    jsonCommand.put("command", "saveUser");
+                    jsonCommand.put("params", jsonParams);
+                    jsonParams.put("name", RegisterUtils.getDefaults(getApplicationContext(), RegisterUtils.TAG_Name));
+//                            jsonParams.put("email", RegisterUtils.getDefaults(getApplicationContext(), RegisterUtils.TAG));
+                    jsonParams.put("phone", RegisterUtils.getDefaults(getApplicationContext(), RegisterUtils.TAG_Phone));
+                    jsonParams.put("userCode", String.valueOf(RegisterUtils.getUserId(getApplicationContext(), RegisterUtils.TAG_UserId)));
+                    jsonParams.put("sendPush", false);
+                    jsonParams.put("lang", "ru");
+                    requestParamsSaveUser.add("data", jsonCommand.toString());
+                    requestParamsSaveUser.add("userid", String.valueOf(RegisterUtils.getUserId(getApplicationContext(), RegisterUtils.TAG_UserId)));
+                    Log.i("JsonStrSaveUSer", jsonCommand.toString());
+                    Log.i("UserId", String.valueOf(RegisterUtils.getUserId(getApplicationContext(), RegisterUtils.TAG_UserId)));
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                clientSaveUser.post(AccessPushNotification.this, "http://88.198.48.246:9017/app/run", requestParamsSaveUser, new TextHttpResponseHandler() {
+                    @Override
+                    public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
+                        Log.e("statusCodePush", statusCode + "");
+                    }
+
+                    @Override
+                    public void onSuccess(int statusCode, Header[] headers, String responseString) {
+                        Log.i("statusCodeUserSave", statusCode + "");
+                        Log.i("ResponseUserSave", responseString);
+
+                        Intent intentName = new Intent(AccessPushNotification.this, TabsActivity.class);
+                        startActivity(intentName);
+                    }
+                });
                 Intent intentName = new Intent(AccessPushNotification.this, TabsActivity.class);
                 startActivity(intentName);
             }
@@ -87,7 +157,7 @@ public class AccessPushNotification extends Activity {
         new AsyncTask<Void, Void, String>() {
             @Override
             protected String doInBackground(Void... params) {
-                String msg = "";
+                String msg;
                 try {
                     if (gcm == null) {
                         gcm = GoogleCloudMessaging.getInstance(getApplicationContext());
